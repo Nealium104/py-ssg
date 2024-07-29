@@ -11,8 +11,9 @@ class HTMLNode:
     def props_to_html(self):
         # Give yourself a way to print an HTMLNode object and see its tag, value, children, and props. This will be useful for your debugging.
         string = ""
-        for key, value in self.props.items():
-           string += f' {key}="{value}"'
+        if self.props:
+            for key, value in self.props.items():
+                string += f' {key}="{value}"'
         return string
 
     def __repr__(self):
