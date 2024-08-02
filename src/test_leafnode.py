@@ -16,5 +16,6 @@ class TestTextNode(unittest.TestCase):
         node = LeafNode("a", "Click Here!", None, {"href": "https://google.com", "class": "link"})
         expected = '<a href="https://google.com" class="link">Click Here!</a>'
         self.assertEqual(node.to_html(), expected)
+        
 if __name__ == "__main__":
     unittest.main()
