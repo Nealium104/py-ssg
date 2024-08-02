@@ -8,8 +8,12 @@ class ParentNode(HTMLNode):
         self.props = props
 
     def to_html(self):
-        if (not self.tag):
+        if not self.tag:
             raise ValueError("No tags present")
-        if (not self.children):
+        if not self.children:
             raise ValueError("No children present")
-        return f"<{self.tag}{self.props}>{self.value}" + [child.to_html() for child in self.children] + f"</{self.tag}>"
+        strings = ""
+        array = [child.to_html() for child in self.children]
+        for item in array:
+            strings += item
+        return f"<{self.tag}>" + strings + f"</{self.tag}>"
