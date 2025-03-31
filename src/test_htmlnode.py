@@ -12,6 +12,7 @@ class TestTextNode(unittest.TestCase):
         node = HTMLNode("div", "This is a div node")
         self.assertEqual(node.props_to_html(), "")
         node2 = HTMLNode("div", "This is a div node", None, {"class": "hi-there", "href": "https://www.google.com"})
+        # leading space is added to each attribute
         self.assertEqual(node2.props_to_html(), ' class="hi-there" href="https://www.google.com"')
 
     def test_leaf_to_html_p(self):
