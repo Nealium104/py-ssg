@@ -1,5 +1,3 @@
-from textnode import TextType
-
 class HTMLNode:
     def __init__(self, tag = None, value = None, children = None, props = None):
         self.tag = tag
@@ -20,22 +18,6 @@ class HTMLNode:
         for key, value in self.props.items():
             attribute_string += f' {key}="{value}"'
         return attribute_string
-    
-    def text_node_to_html_node(text_node):
-        if not isinstance(text_node.text_type, TextType):
-            raise Exception("text_node.text_type must be an instance of TextType")
-        if text_node.text_type == TextType.TEXT:
-            return LeafNode(None, text_node.text)
-        if text_node.text_type == TextType.BOLD:
-            return LeafNode(None, text_node.BOLD)
-        if text_node.text_type == TextType.ITALIC:
-            return HTMLNode(None, text_node.italic)
-        if text_node.text_type == TextType.CODE:
-            return HTMLNode(None, text_node.code)
-        if text_node.text_type == TextType.LINK:
-            return HTMLNode(None, text_node.link)
-        if text_node.text_type == TextType.IMAGE:
-            return HTMLNode(None, text_node.image)
  
 class LeafNode(HTMLNode):
     def __init__(self, tag, value, props=None):
