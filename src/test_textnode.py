@@ -88,7 +88,7 @@ class TestSplitNodeDelimiter(unittest.TestCase):
     
     def test_bold_multi_word(self):
         node = TextNode("This is text with **two connected** and bolded words", TextType.TEXT)
-        new_nodes = split_nodes_delimiter([node], "**", TextType.TEXT)
+        new_nodes = split_nodes_delimiter([node], "**", TextType.BOLD)
         self.assertListEqual(
             [
                 TextNode("This is text with ", TextType.TEXT),
@@ -98,5 +98,16 @@ class TestSplitNodeDelimiter(unittest.TestCase):
             new_nodes
         )
 
+    def test_italic(self):
+        node = TextNode("This is _italicized_ text", TextType.TEXT)
+        new_nodes = split_nodes_delimiter([node], "_", TextType.ITALIC)
+        self.assertListEqual(
+            [
+                TextNode("This is ", TextType.TEXT),
+                TextNode("italicized", TextType.ITALIC),
+                TextNode(" text", TextType.TEXT)
+            ],
+            new_nodes
+        )
 if __name__ == "__main__":
     unittest.main()
