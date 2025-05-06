@@ -1,5 +1,5 @@
 import unittest
-from textnode import TextNode, TextType, text_node_to_html_node
+from textnode import *
 
 class TestTextNode(unittest.TestCase):
     def test_eq(self):
@@ -59,6 +59,32 @@ class TestTextNodeToHTMLNode(unittest.TestCase):
         self.assertEqual(html_node.tag, "link")
         self.assertEqual(html_node.value, "This is a link node")
         self.assertEqual(html_node.props, {'href': "https://www.google.com"})
-        
+
+class TestSplitNodeDelimiter(unittest.TestCase):
+    def test_bold(self):
+        node = TextNode("This is text with a **bolded** word", TextType.TEXT)
+        new_nodes = split_nodes_delimiter([node], "**", TextType.BOLD)
+        self.assertListEqual(
+            [
+                TextNode("This is text with a ", TextType.TEXT),
+                TextNode("bolded", TextType.BOLD),
+                TextNode(" word", TextType.TEXT),
+            ],
+            new_nodes,
+        )
+
+    def test_double_bold(self):
+        node = TextNode("This is text with **two** bolded **words**", TextType.TEXT)
+        new_nodes = split_nodes_delimiter([node], "**", TextType.BOLD)
+        self.assertListEqual(
+            [
+                TextNode("This is text with ", TextType.TEXT),
+                TextNode("two", TextType.BOLD),
+                TextNode(" bolded ", TextType.TEXT),
+                TextNode("words", TextType.BOLD)
+            ],
+            new_nodes
+        )
+
 if __name__ == "__main__":
     unittest.main()
