@@ -109,5 +109,32 @@ class TestSplitNodeDelimiter(unittest.TestCase):
             ],
             new_nodes
         )
+
+    def test_italic_multi_word(self):
+        node = TextNode("This is _multi-word, italicized_ text", TextType.TEXT)
+        new_nodes = split_nodes_delimiter([node], "_", TextType.ITALIC)
+        self.assertListEqual(
+            [
+                TextNode("This is ", TextType.TEXT),
+                TextNode("multi-word, italicized", TextType.ITALIC),
+                TextNode(" text", TextType.TEXT)
+            ],
+            new_nodes
+        )
+
+    def test_italic_and_bold(self):
+        node = TextNode("This is _italicized text_ and **bold text**", TextType.TEXT)
+        new_nodes = split_nodes_delimiter([node], "_", TextType.ITALIC)
+        new_nodes = split_nodes_delimiter(new_nodes, "**", TextType.BOLD)
+        self.assertListEqual(
+            [
+                TextNode("This is ", TextType.TEXT),
+                TextNode("italicized text", TextType.ITALIC),
+                TextNode(" and ", TextType.TEXT),
+                TextNode("bold text", TextType.BOLD)
+            ],
+            new_nodes
+        )
+
 if __name__ == "__main__":
     unittest.main()
