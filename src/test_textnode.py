@@ -136,5 +136,17 @@ class TestSplitNodeDelimiter(unittest.TestCase):
             new_nodes
         )
 
+    def test_code(self):
+        node = TextNode("This is `code` text", TextType.TEXT)
+        new_nodes = split_nodes_delimiter([node], "`", TextType.CODE)
+        self.assertListEqual(
+            [
+                TextNode("This is ", TextType.TEXT),
+                TextNode("code", TextType.CODE),
+                TextNode(" text", TextType.TEXT)
+            ],
+            new_nodes
+        )
+
 if __name__ == "__main__":
     unittest.main()
