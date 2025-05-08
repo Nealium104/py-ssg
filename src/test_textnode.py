@@ -154,9 +154,29 @@ class TestSplitNodeDelimiter(unittest.TestCase):
         )
         self.assertListEqual([("image", "https://google.com")], matches)
 
+    def test_extract_markdown_images_multiple(self):
+        matches = extract_markdown_images(
+            "This is text with ![multiple](https://google.com) ![images](https://google.com)"
+        )
+        self.assertListEqual(
+            [
+                ("multiple", "https://google.com"),
+                ("images", "https://google.com")
+            ], matches)
+
     def test_extract_markdown_links(self):
         matches = extract_markdown_links("This is text with a [link](https://google.com)")
         self.assertListEqual([("link", "https://google.com")], matches)
+
+    def test_extract_markdown_links_multiple(self):
+        matches = extract_markdown_links("This is text with [multiple](https://google.com) [links](https://google.com)")
+        self.assertListEqual(
+            [
+                ("multiple", "https://google.com"),
+                ("links", "https://google.com")
+            ], 
+            matches
+        )
 
 if __name__ == "__main__":
     unittest.main()
