@@ -68,3 +68,35 @@ def extract_markdown_links(text):
     regex = r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)"
     matches = re.findall(regex, text)
     return matches
+
+def split_nodes_image(old_nodes):
+    new_nodes = []
+    for node in old_nodes:
+        if node.text_type != TextType.TEXT:
+            new_nodes.append(node)
+            continue
+        text = node.text
+        images = extract_markdown_images(text)
+        if len(images) == 0:
+            new_nodes.append(node)
+            continue
+        for image in images:
+            sections = text.split(f"![{image[0]}]({image[1]})", 1)
+            if len(images) != 2:
+                raise ValueError("invalid markdown, formatted section not closed")
+            if sections[0] != "":
+                new_nodes.append(TextNode(sections[0], TextType.TEXT))
+            new_nodes.append(
+                TextNode(
+                    image[0],
+                    TextType.IMAGE,
+                    image[1]
+                )
+            )
+            text = sections[1]
+        if text != "":
+            new_nodes.append(TextNode(text, TextType.TEXT))
+    return new_nodes
+        
+def split_nodes_link(old_nodes):
+    pass
