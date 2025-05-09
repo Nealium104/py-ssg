@@ -120,3 +120,6 @@ def split_nodes_link(old_nodes):
         if text != "":
             new_nodes.append(TextNode(text, TextType.TEXT))
     return new_nodes
+
+def text_to_textnodes(text):
+    pass
