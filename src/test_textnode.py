@@ -196,5 +196,45 @@ class TestSplitNodeDelimiter(unittest.TestCase):
             new_nodes,
         )
 
+    def test_split_image_one(self):
+        node = TextNode(
+            "![image](https://google.com)", TextType.TEXT
+        )
+        new_nodes = split_nodes_image([node])
+        self.assertListEqual(
+            [
+                TextNode("image", TextType.IMAGE, "https://google.com")
+            ], 
+            new_nodes
+        )
+
+    def test_split_links(self):
+        node = TextNode(
+            "This is text with a [few](https://google.com) [links](https://google.com)",
+             TextType.TEXT
+        )
+        new_nodes = split_nodes_link([node])
+        self.assertListEqual(
+            [
+                TextNode("This is text with a ", TextType.TEXT),
+                TextNode("few", TextType.LINK, "https://google.com"),
+                TextNode(" ", TextType.TEXT),
+                TextNode("links", TextType.LINK, "https://google.com"),
+            ], new_nodes
+        )
+    
+    def test_split_link_one(self):
+        node = TextNode(
+            "This is text with just one [link](https://google.com)",
+            TextType.TEXT
+        )
+        new_nodes = split_nodes_link([node])
+        self.assertListEqual(
+            [
+                TextNode("This is text with just one ", TextType.TEXT),
+                TextNode("link", TextType.LINK, "https://google.com")
+            ], new_nodes
+        )
+
 if __name__ == "__main__":
     unittest.main()
