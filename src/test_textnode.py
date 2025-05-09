@@ -237,8 +237,8 @@ class TestSplitNodeDelimiter(unittest.TestCase):
         )
 
     def test_text_to_textnodes(self):
-        node = TextNode("This is **bold** and _italic_ with a little `code`, a [link](https://google.com), and an ![image](https://google.com)")
-        new_nodes = text_to_textnodes(node)
+        text = "This is **bold** and _italic_ with a little `code`, a [link](https://google.com), and an ![image](https://google.com)"
+        new_nodes = text_to_textnodes(text)
         self.assertListEqual(
             [
                 TextNode("This is ", TextType.TEXT),
@@ -249,7 +249,8 @@ class TestSplitNodeDelimiter(unittest.TestCase):
                 TextNode("code", TextType.CODE),
                 TextNode(", a ", TextType.TEXT),
                 TextNode("link", TextType.LINK, "https://google.com"),
-                TextNode(", and an ", TextType.IMAGE, "https://google.com")
+                TextNode(", and an ", TextType.TEXT), 
+                TextNode("image", TextType.IMAGE, "https://google.com")
             ], new_nodes
         )
 
