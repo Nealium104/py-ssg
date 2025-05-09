@@ -254,5 +254,47 @@ class TestSplitNodeDelimiter(unittest.TestCase):
             ], new_nodes
         )
 
+    def test_markdown_to_blocks(self):
+        md = """
+This is a paragraph with **bold** text.
+
+Below is a second paragraph with _italic_ text and `code`
+This is just a single line break
+
+- this is
+- a list
+"""
+        blocks = markdown_to_blocks(md)
+        self.assertEqual(
+            blocks,
+            [
+                "This is a paragraph with **bold** text.",
+                "Below is a second paragraph with _italic_ text and `code`\nThis is just a single line break",
+                "- this is\n- a list"
+            ]
+        )
+    
+    def test_markdown_to_blocks_newlines(self):
+        md = """
+This is a paragraph with **bold** text.
+
+
+
+This is a second paragraph with _italic_ text and `code`
+This is just a single line break
+
+- this is
+- a list
+"""
+        blocks = markdown_to_blocks(md)
+        self.assertEqual(
+            blocks,
+            [
+                "This is a paragraph with **bold** text.",
+                "This is a second paragraph with _italic_ text and `code`\nThis is just a single line break",
+                "- this is\n- a list"
+            ]
+        )
+
 if __name__ == "__main__":
     unittest.main()
